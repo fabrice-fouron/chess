@@ -169,4 +169,13 @@ list1 = [
 	k1, k2
 ]
 
-temp = Board(list1)
+gameOver = False
+
+def main():
+	board = Board(list1)
+	while not gameOver:
+		
+		pass
+
+if '__name__' == "__main__":
+	main()
