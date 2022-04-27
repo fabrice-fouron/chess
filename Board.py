@@ -27,13 +27,14 @@ class Board:
 		self.grave = []
 		self.init_board()
 		self.print_board()
-		# self.update_record()
-		# print(self.record)
+		self.update_record()
+		print(self.record)
 
 	def print_board(self):
 		'''Constructs the board'''
 		for i in self.board:
 			print(i)
+			print()
 			print()
 
 	def init_board(self):
@@ -44,7 +45,7 @@ class Board:
 
 		for temp in self.board[2:6]: # Blank spaces in the middle
 			for i in range(8):
-				temp.append("  ")
+				temp.append("    ")
 
 		for j in self.pieces[8:16]:  # add white pawns to the list
 			if isinstance(j, Pawn) and j.team == 'white':
@@ -116,18 +117,19 @@ def let_to_num(row_let):
 			return 6
 		case "H":
 			return 7
+	return "OOPS, NOT ON THE BOARD"
 
 
 # Set up all the pieces in vars
-p1 = Pawn('black', 'P1', [let_to_num("A"), 1])
-p2 = Pawn('black', 'P2', [let_to_num("B"), 1])
-p3 = Pawn('black', 'P3', [let_to_num("C"), 1])
-p4 = Pawn('black', 'P4', [let_to_num("D"), 1])
-p5 = Pawn('black', 'P5', [let_to_num("E"), 1])
-p6 = Pawn('black', 'P6', [let_to_num("F"), 1])
-p7 = Pawn('black', 'P7', [let_to_num("G"), 1])
-p8 = Pawn('black', 'P8', [let_to_num("H"), 1])
-p9 = Pawn('white', 'P9', [let_to_num("A"), 1])
+p1 = Pawn('black', 'P01', [let_to_num("A"), 1])
+p2 = Pawn('black', 'P02', [let_to_num("B"), 1])
+p3 = Pawn('black', 'P03', [let_to_num("C"), 1])
+p4 = Pawn('black', 'P04', [let_to_num("D"), 1])
+p5 = Pawn('black', 'P05', [let_to_num("E"), 1])
+p6 = Pawn('black', 'P06', [let_to_num("F"), 1])
+p7 = Pawn('black', 'P07', [let_to_num("G"), 1])
+p8 = Pawn('black', 'P08', [let_to_num("H"), 1])
+p9 = Pawn('white', 'P09', [let_to_num("A"), 1])
 p10 = Pawn('white', 'P10', [let_to_num("B"), 1])
 p11 = Pawn('white', 'P11', [let_to_num("C"), 1])
 p12 = Pawn('white', 'P12', [let_to_num("D"), 1])
@@ -136,26 +138,26 @@ p14 = Pawn('white', 'P14', [let_to_num("F"), 1])
 p15 = Pawn('white', 'P15', [let_to_num("G"), 1])
 p16 = Pawn('white', 'P16', [let_to_num("H"), 1])
 
-r1 = Rook('black', 'r1', [let_to_num("A"), 1])
-r2 = Rook('black', 'r2', [let_to_num("H"), 1])
-r3 = Rook('white', 'r3', [let_to_num("A"), 1])
-r4 = Rook('white', 'r4', [let_to_num("H"), 1])
+r1 = Rook('black', 'R01', [let_to_num("A"), 1])
+r2 = Rook('black', 'R02', [let_to_num("H"), 1])
+r3 = Rook('white', 'R03', [let_to_num("A"), 1])
+r4 = Rook('white', 'R04', [let_to_num("H"), 1])
 
-n1 = Knight('white', 'n1', [let_to_num("B"), 1])
-n2 = Knight('white', 'n2', [let_to_num("G"), 1])
-n3 = Knight('black', 'n3', [let_to_num("B"), 1])
-n4 = Knight('black', 'n4', [let_to_num("G"), 1])
+n1 = Knight('white', 'N01', [let_to_num("B"), 1])
+n2 = Knight('white', 'N02', [let_to_num("G"), 1])
+n3 = Knight('black', 'N03', [let_to_num("B"), 1])
+n4 = Knight('black', 'N04', [let_to_num("G"), 1])
 
-b1 = Bishop('white', 'b1', [let_to_num("C"), 1])
-b2 = Bishop('white', 'b2', [let_to_num("F"), 1])
-b3 = Bishop('black', 'b3', [let_to_num("C"), 1])
-b4 = Bishop('black', 'b4', [let_to_num("F"), 1])
+b1 = Bishop('white', 'B01', [let_to_num("C"), 1])
+b2 = Bishop('white', 'B02', [let_to_num("F"), 1])
+b3 = Bishop('black', 'B03', [let_to_num("C"), 1])
+b4 = Bishop('black', 'B04', [let_to_num("F"), 1])
 
-q1 = Queen('black', 'q1', [let_to_num("D"), 1])
-q2 = Queen('white', 'q2', [let_to_num("E"), 1])
+q1 = Queen('black', 'Q01', [let_to_num("D"), 1])
+q2 = Queen('white', 'Q02', [let_to_num("E"), 1])
 
-k1 = King('black', 'k1', [let_to_num("E"), 1])
-k2 = King('white', 'k2', [let_to_num("D"), 1])
+k1 = King('black', 'K01', [let_to_num("E"), 1])
+k2 = King('white', 'K02', [let_to_num("D"), 1])
 
 list1 = [
 	p1, p2, p3, p4,
@@ -170,12 +172,30 @@ list1 = [
 ]
 
 gameOver = False
+whiteTurn = False
 
 def main():
 	board = Board(list1)
 	while not gameOver:
-		
+		piece = input('Enter the name of the piece to be moved: ')
+
+		if whiteTurn:
+			if 'w' not in piece:
+				print("It has to be a white piece")
+			else:
+				row = let_to_num(input('Enter the target row: ').upper())
+				col = int(input('Enter the target column: ')) - 1
+		else:
+			if 'b' not in piece:
+				print("It has to be a white piece")
+			else:
+				row = let_to_num(input('Enter the target row: ').upper())
+				col = int(input('Enter the target column: ')) - 1
+				target = [row, col]
+
+
+
 		pass
 
-if '__name__' == "__main__":
-	main()
+
+Board(list1)

@@ -2,25 +2,26 @@ from abc import ABC, abstractmethod
 
 
 def let_to_num(rowLet):
+    '''Author: Kylash'''
     rowNum = 0
     if rowLet.upper() == "A":
-        rowNum = 1
-    elif rowLet.upper() == "B":
-        rowNum = 2
-    elif rowLet.upper() == "C":
-        rowNum = 3
-    elif rowLet.upper() == "D":
-        rowNum = 4
-    elif rowLet.upper() == "E":
-        rowNum = 5
-    elif rowLet.upper() == "F":
-        rowNum = 6
-    elif rowLet.upper() == "G":
-        rowNum = 7
-    elif rowLet.upper() == "H":
         rowNum = 8
+    elif rowLet.upper() == "B":
+        rowNum = 7
+    elif rowLet.upper() == "C":
+        rowNum = 6
+    elif rowLet.upper() == "D":
+        rowNum = 5
+    elif rowLet.upper() == "E":
+        rowNum = 4
+    elif rowLet.upper() == "F":
+        rowNum = 3
+    elif rowLet.upper() == "G":
+        rowNum = 2
+    elif rowLet.upper() == "H":
+        rowNum = 1
 
-    return rowNum
+    return rowNum - 1
 
 
 def num_to_let(rowNum):
@@ -44,6 +45,7 @@ def num_to_let(rowNum):
 
 
 class GamePiece(ABC):
+    '''Author: Fabrice'''
 
     def __init__(self, team: str, piece: str, position: list):
         """
@@ -86,7 +88,7 @@ class GamePiece(ABC):
         self.alive = not self.alive
 
     def __str__(self) -> str:
-        return self.piece[0] + self.team[0]
+        return self.piece[0:3] + self.team[0]
 #################################################################
 
 
@@ -110,11 +112,12 @@ class Rook(GamePiece):
 
 
 class Bishop(GamePiece):
-    '''Class for the Bishop piece'''
+    '''Author: Henry'''
 
     def is_valid_position(self, target: list) -> bool:
         """
         Checks if the target position is valid
+        
         """
         x = self.position[0]
         y = self.position[1]
@@ -162,23 +165,24 @@ class Bishop(GamePiece):
 ##############################################################
 
 
-class Pawn(GamePiece):
+class Pawn(GamePiece): # Have to work for both sides (black and white) 
+    '''Author: Sean'''
     def __init__(self, team: str, piece: str, position: list):
         super().__init__(team, piece, position)
         self.move = 0
 
     def is_valid_position(self, target: list) -> bool:
+        
         # checks      if positon is valid when moving 2 spaces
-        # if target[0] == let_to_num(self.position[0]) + 2 and target[1] == self.position[1] + 2:
-        #     if self.move == 1:  # checks if its the first move
-        #         return True
-        #     else:
-        #         return False
-        # # this       checks if the move is valif for any normal pawn move
-        # elif target[0] == let_to_num(self.position[0]) + 1 and target[1] == self.position[1] + 1:
-        #     return True
-        # else:
-        #     return False
+        if target[0] == let_to_num(self.position[0]) + 2 and target[1] == self.position[1] and self.move == 1:
+            return False
+        # this       checks if the move is valif for any normal pawn move
+        elif target[0] == let_to_num(self.position[0]) + 1 and target[1] == self.position[1]:
+            return True
+        elif target[0] == let_to_num(self.position[0]) + 1 and target[1] == self.position[1] + 1: 
+            return True
+        else:
+            return False
         self.move = 1
 ##############################################################
 
@@ -276,7 +280,7 @@ class Knight(GamePiece):
 
 class King(GamePiece):
     '''
-    Class for the King piece
+    Author: Marty
     '''
 
     def __init__(self, team: str, piece: str, position: list):
