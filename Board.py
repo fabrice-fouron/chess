@@ -14,12 +14,12 @@ class Board:
 		self.pieces = pieces
 		self.board = [
 			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
-			[],
-			[],
-			[],
-			[],
-			[],
-			[],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
 			["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "]
 		]
 		# keeps record of all the pieces (location, eaten or not)
@@ -96,27 +96,34 @@ class Board:
 		'''Updates the record of the pieces coordinates'''
 		for i in self.pieces:
 			self.record[i.__str__()] = i.get_position()
+			self.board[i.get_position()[0]][i.get_position()[1]] = i.__str__()
 
-
+	def name_to_piece(self, name):
+		for i in self.pieces:
+			if i.__str__() == name:
+				return i
+		else: 
+			return None
 def let_to_num(row_let):
-	'''Changes the letters to numbers'''
+	'''Changes the letters to numbers
+	   Python 10 required to run the match-case code'''
 	match row_let:
 		case "A":
-			return 0
-		case "B":
-			return 1
-		case "C":
-			return 2
-		case "D":
-			return 3
-		case "E":
-			return 4
-		case "F":
-			return 5
-		case "G":
-			return 6
-		case "H":
 			return 7
+		case "B":
+			return 6
+		case "C":
+			return 5
+		case "D":
+			return 4
+		case "E":
+			return 3
+		case "F":
+			return 2
+		case "G":
+			return 1
+		case "H":
+			return 0
 	return "OOPS, NOT ON THE BOARD"
 
 
@@ -175,27 +182,101 @@ gameOver = False
 whiteTurn = False
 
 def main():
+
+	def confirm_move(piece, target): # Confirm that the move is possible
+		temp = check_cell(target)
+		if isinstance(piece, Pawn):
+			if target[1] == piece.position + 1 and temp is not None:
+				if temp.team == piece.team:
+					return False
+				
+			elif target[1] == piece.position - 1 and temp is not None:
+				if temp.team == piece.team:
+					return False
+				else:
+					pass
+		elif isinstance(piece, Bishop):
+			pass
+		elif isinstance(piece, Rook):
+			if temp is not None:
+				if piece.team == temp.team:
+					return False
+			elif temp is None:
+				return True
+			else:
+				return False
+		elif isinstance(piece, Queen):
+			if temp is not None:
+				if piece.team == temp.team:
+					return False
+			elif temp is None:
+				return True
+			else:
+				return False
+		elif isinstance(piece, Knight):
+			if temp is not None:
+				if piece.team == temp.team:
+					return False
+			elif temp is None:
+				return True
+			else:
+				return False
+		elif isinstance(piece, King):
+			if temp is not None:
+				if piece.team == temp.team:
+					return False
+			elif temp is None:
+				return True
+			else:
+				return False
+		elif isinstance(piece, Bishop):
+			if temp is not None:
+				if piece.team == temp.team:
+					return False
+			elif temp is None:
+				return True
+			else:
+				return False
+
+	def check_cell(target): # Returns the object that is in the cell
+		for i in board.record:
+			if board.record[i] == target:
+				return i
+		return None
+
 	board = Board(list1)
+
+	def get_piece(name):
+		'''Find the piece object in the board pieces list based on a given name'''
+		for i in board.pieces:
+			if name == i.__str__():
+				return i
+		else:
+			return None
 	while not gameOver:
 		piece = input('Enter the name of the piece to be moved: ')
 
-		if whiteTurn:
-			if 'w' not in piece:
-				print("It has to be a white piece")
-			else:
-				row = let_to_num(input('Enter the target row: ').upper())
-				col = int(input('Enter the target column: ')) - 1
+		# If the piece exists
+		if board.name_to_piece(piece) is not None:
+			if whiteTurn:	# If it is white turn
+				if 'w' not in piece:
+					print("It has to be a white piece")
+				else: # Else get the target coordinates from the user
+					row = let_to_num(input('Enter the target row: ').upper())
+					col = int(input('Enter the target column: ')) - 1
+					target = [row, col]
+			else:  # If it is black turn
+				if 'b' not in piece:
+					print("It has to be a white piece")
+				else:
+					row = let_to_num(input('Enter the target row: ').upper())
+					col = int(input('Enter the target column: ')) - 1
+					target = [row, col]
+					if confirm_move(piece, target):  # Set the piece to the target location in the record
+						board.record[piece] = target
+					else:
+						print("Something went wrong. Move not valid")
 		else:
-			if 'b' not in piece:
-				print("It has to be a white piece")
-			else:
-				row = let_to_num(input('Enter the target row: ').upper())
-				col = int(input('Enter the target column: ')) - 1
-				target = [row, col]
-
-
-
-		pass
-
+			print("Piece does not exist")
 
 Board(list1)

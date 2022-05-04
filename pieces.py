@@ -286,6 +286,7 @@ class King(GamePiece):
     def __init__(self, team: str, piece: str, position: list):
         super().__init__(team, piece, position)
         self.valid_moves = []
+    
 
     def is_valid_position(self, target: list):
 
