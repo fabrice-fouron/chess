@@ -1,0 +1,8 @@
+- FINISH THE PROJECT
+    - For the Board, the display thing should be fine
+    - The pieces themselves and their functionality should also be fine
+    - What is left to work on
+        - The castling part(if you still want to do it)
+        - The eating part (yummy!)
+        - If the king is being attacked (Check)
+        - The endgame
