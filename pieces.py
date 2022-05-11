@@ -25,24 +25,23 @@ def let_to_num(rowLet):
 
 
 def num_to_let(rowNum):
-    match rowNum:
-        case "A":
-            return 0
-        case "B":
-            return 1
-        case "C":
-            return 2
-        case "D":
-            return 3
-        case "E":
-            return 4
-        case "F":
-            return 5
-        case "G":
-            return 6
-        case "H":
-            return 7
-
+    if rowNum == 'A':
+        return 7
+    elif rowNum == 'B':
+        return 6
+    elif rowNum == 'C':
+        return 5
+    elif rowNum == 'D':
+        return 4
+    elif rowNum == 'E':
+        return 3
+    elif rowNum == 'F':
+        return 2
+    elif rowNum == 'G':
+        return 1
+    elif rowNum == 'H':
+        return 0
+    return "Not valid"
 
 class GamePiece(ABC):
     '''Author: Fabrice'''
